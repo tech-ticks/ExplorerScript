@@ -22,10 +22,9 @@
 #
 from __future__ import annotations
 
-from explorerscript_parser import ExplorerScriptParser
-from explorerscript_parser.SsbScriptParser import SsbScriptParser
 from explorerscript.error import SsbCompilerError
 from explorerscript.util import exps_int, _
+from explorerscript_parser import ExplorerScriptParser, SsbScriptParser
 
 
 def parse_position_marker_arg(

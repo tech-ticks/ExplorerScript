@@ -38,7 +38,8 @@ from explorerscript_parser import ExplorerScriptParser, Antlr4ParserRuleContext
 
 class DefaultCaseBlockCompileHandler(
     AbstractComplexBlockCompileHandler[
-        ExplorerScriptParser.DefaultContext, "AbstractStatementCompileHandler[ParserRuleContext] | StringCompileHandler"
+        ExplorerScriptParser.DefaultContext,
+        "AbstractStatementCompileHandler[Antlr4ParserRuleContext] | StringCompileHandler",
     ]
 ):
     """Handles a default block."""

@@ -24,8 +24,6 @@ from __future__ import annotations
 
 from enum import Enum, auto
 
-from explorerscript_parser.SsbScriptListener import SsbScriptListener
-from explorerscript_parser.SsbScriptParser import SsbScriptParser
 from explorerscript.common_syntax import parse_position_marker_arg
 from explorerscript.error import SsbCompilerError
 from explorerscript.source_map import SourceMapBuilder, SourceMapPositionMark
@@ -44,6 +42,8 @@ from explorerscript.ssb_converting.ssb_data_types import (
 )
 from explorerscript.ssb_converting.ssb_special_ops import SsbLabel, SsbLabelJump
 from explorerscript.util import exps_int, _
+from explorerscript_parser import SsbScriptBaseVisitor
+from explorerscript_parser import SsbScriptParser
 
 
 class ListenerArgType(Enum):
@@ -58,7 +58,7 @@ class ListenerArgType(Enum):
     POSITION_MARKER = auto()
 
 
-class SsbScriptCompilerListener(SsbScriptListener):
+class SsbScriptCompilerVisitor(SsbScriptBaseVisitor):
     """Builds the SSB data structures while listening for parsing events."""
 
     def __init__(self) -> None:
@@ -111,11 +111,11 @@ class SsbScriptCompilerListener(SsbScriptListener):
         self._enlarge_routine_info()
         linked_to = -1
         linked_to_name = None
-        integer_like = str(ctx.integer_like().children[0])
+        integer_like = ctx.integer_like()
         try:
-            linked_to = exps_int(integer_like)
+            linked_to = exps_int(str(integer_like.INTEGER()))
         except ValueError:
-            linked_to_name = integer_like
+            linked_to_name = str(integer_like.IDENTIFIER())
 
         target: SsbScriptParser.For_target_def_targetContext = ctx.for_target_def_target()
         legacy_deprecated_target = target.FOR_TARGET()
@@ -239,7 +239,7 @@ class SsbScriptCompilerListener(SsbScriptListener):
     def exitPosition_marker(self, ctx: SsbScriptParser.Position_markerContext) -> None:
         if self._is_processing_argument:
             assert self._collected_pos_marker is not None
-            self._collected_pos_marker.name = singleline_string_literal(ctx.STRING_LITERAL())
+            self._collected_pos_marker.name = singleline_string_literal(str(ctx.STRING_LITERAL()))
 
     def exitPosition_marker_arg(self, ctx: SsbScriptParser.Position_marker_argContext) -> None:
         if self._is_processing_argument:
