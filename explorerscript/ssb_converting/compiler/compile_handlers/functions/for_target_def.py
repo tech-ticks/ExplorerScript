@@ -24,9 +24,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from antlr4 import ParserRuleContext
-
-from explorerscript.antlr.ExplorerScriptParser import ExplorerScriptParser
 from explorerscript.error import SsbCompilerError
 from explorerscript.ssb_converting.compiler.compile_handlers.abstract import (
     AbstractFuncdefCompileHandler,
@@ -36,6 +33,7 @@ from explorerscript.ssb_converting.compiler.compile_handlers.atoms.integer_like 
 from explorerscript.ssb_converting.compiler.utils import CompilerCtx
 from explorerscript.ssb_converting.ssb_data_types import SsbRoutineInfo, SsbRoutineType, SsbOpParam
 from explorerscript.util import exps_int
+from explorerscript_parser import ExplorerScriptParser, Antlr4ParserRuleContext
 
 
 class ForTargetDefCompileHandler(AbstractFuncdefCompileHandler[ExplorerScriptParser.For_target_defContext]):
@@ -72,7 +70,7 @@ class ForTargetDefCompileHandler(AbstractFuncdefCompileHandler[ExplorerScriptPar
     def get_new_routine_id(self, old_id: int) -> int:
         return exps_int(str(self.ctx.INTEGER()))
 
-    def add(self, obj: IntegerLikeCompileHandler | AbstractCompileHandler[ParserRuleContext, Any]) -> None:
+    def add(self, obj: IntegerLikeCompileHandler | AbstractCompileHandler[Antlr4ParserRuleContext, Any]) -> None:
         if isinstance(obj, IntegerLikeCompileHandler):
             self._linked_to_target = obj.collect()
             return

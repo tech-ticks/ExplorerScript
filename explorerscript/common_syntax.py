@@ -22,8 +22,8 @@
 #
 from __future__ import annotations
 
-from explorerscript.antlr.ExplorerScriptParser import ExplorerScriptParser
-from explorerscript.antlr.SsbScriptParser import SsbScriptParser
+from explorerscript_parser import ExplorerScriptParser
+from explorerscript_parser.SsbScriptParser import SsbScriptParser
 from explorerscript.error import SsbCompilerError
 from explorerscript.util import exps_int, _
 

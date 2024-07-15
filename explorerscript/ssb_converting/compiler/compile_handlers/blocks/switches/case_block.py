@@ -22,9 +22,6 @@
 #
 from __future__ import annotations
 
-from antlr4 import ParserRuleContext
-
-from explorerscript.antlr.ExplorerScriptParser import ExplorerScriptParser
 from explorerscript.error import SsbCompilerError
 from explorerscript.ssb_converting.compiler.compile_handlers.abstract import (
     AbstractComplexBlockCompileHandler,
@@ -37,6 +34,7 @@ from explorerscript.ssb_converting.compiler.utils import CompilerCtx, SsbLabelJu
 from explorerscript.ssb_converting.ssb_data_types import SsbOperation, SsbOpParam
 from explorerscript.ssb_converting.ssb_special_ops import SsbLabel, OP_JUMP, SsbLabelJump
 from explorerscript.util import _
+from explorerscript_parser import ExplorerScriptParser, Antlr4ParserRuleContext
 
 
 class CaseBlockCompileHandler(
@@ -90,7 +88,8 @@ class CaseBlockCompileHandler(
         return self._case_header_handler
 
     def add(
-        self, obj: AbstractStatementCompileHandler[ParserRuleContext] | CaseHeaderCompileHandler | StringCompileHandler
+        self,
+        obj: AbstractStatementCompileHandler[Antlr4ParserRuleContext] | CaseHeaderCompileHandler | StringCompileHandler,
     ) -> None:
         if isinstance(obj, AbstractComplexStatementCompileHandler):
             # Sub statement for the block
