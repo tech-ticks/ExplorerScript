@@ -39,6 +39,7 @@ class PositionMarkVisitor(ExplorerScriptBaseVisitor):
 
     def __init__(self) -> None:
         self.compiler_ctx = CompilerCtx(Counter(), SourceMapBuilder(), {}, Counter(), "n/a", {})
+        super().__init__()
 
     def visitStart(self, ctx: ExplorerScriptParser.StartContext) -> list[SourceMapPositionMark]:
         return self.visitChildren(ctx)

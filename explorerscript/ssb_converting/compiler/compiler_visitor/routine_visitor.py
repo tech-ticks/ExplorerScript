@@ -67,6 +67,7 @@ class RoutineVisitor(ExplorerScriptBaseVisitor):
 
         self._active_routine_id = -1
         self._root_handler = None
+        super().__init__()
 
     def visitImport_stmt(self, ctx: ExplorerScriptParser.Import_stmtContext) -> None:
         # Are not visited.
@@ -127,3 +128,6 @@ class RoutineVisitor(ExplorerScriptBaseVisitor):
                 self.routine_infos.append(None)  # type: ignore
                 self.routine_ops.append([])
                 self.named_coroutines.append([])  # type: ignore
+
+    def defaultResult(self) -> list[None]:
+        return []  # needs to not be None
